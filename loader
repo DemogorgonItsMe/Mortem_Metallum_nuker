@@ -1,0 +1,128 @@
+local plr = game.Players.LocalPlayer
+local uis = game:GetService("UserInputService")
+
+local wA = false
+local limit = 4
+local amount = 1
+local weaponType
+local case
+local dequip
+local once
+
+-----------        
+
+uis.InputBegan:Connect(function(key,unactive)
+    if not unactive then
+        if key.KeyCode == Enum.KeyCode.G then
+            weaponType = "Kanabo"
+            limit = 4
+            case = 1
+            dequip = true
+        end
+        if key.KeyCode == Enum.KeyCode.H then
+            weaponType = "Grenade"
+            limit = 5
+            case = 1
+            dequip = false
+        end 
+        if key.KeyCode == Enum.KeyCode.V then
+            weaponType = "Chainsaw"
+            limit = 4
+            case = 1
+            dequip = true
+        end 
+        if key.KeyCode == Enum.KeyCode.T then
+            weaponType = "Grenade"
+            limit = 4
+            case = 2
+            dequip = false
+            once = true
+        end  
+        if key.KeyCode == Enum.KeyCode.R then
+            weaponType = "Fire bomb"
+            limit = 4
+            case = 2
+            dequip = false
+        end      
+        if key.KeyCode == Enum.KeyCode.U then
+            weaponType = "C4"
+            limit = 4
+            case = 2
+            dequip = false
+        end              
+        if key.KeyCode == Enum.KeyCode.Y then
+            weaponType = "Bear trap"
+            limit = 4
+            case = 1
+            dequip = false
+        end
+        
+        
+-----------        
+        
+        if key.KeyCode == Enum.KeyCode.V then
+            case = 3
+        end  
+
+-----------   
+
+        if key.KeyCode == Enum.KeyCode.P then
+            for _, tool in ipairs(plr.Backpack:GetChildren()) do
+                tool.Parent = plr.Character
+            end
+        end
+
+        if (key.KeyCode == Enum.KeyCode.G) 
+        or (key.KeyCode == Enum.KeyCode.V) 
+        or (key.KeyCode == Enum.KeyCode.T)
+        or (key.KeyCode == Enum.KeyCode.Y)
+        or (key.KeyCode == Enum.KeyCode.B)
+        or (key.KeyCode == Enum.KeyCode.R)
+        or (key.KeyCode == Enum.KeyCode.H)
+        or (key.KeyCode == Enum.KeyCode.J)
+        or (key.KeyCode == Enum.KeyCode.U) then wA = not wA
+            if wA then
+                if case == 3 then 
+                    for i,v in pairs(plr.Backpack:GetChildren()) do
+                        if v.Name ~= 'C4' and v.Name ~= 'Grenade' 
+                        and v.Name ~= 'Fire bomb' and v.Name ~= 'Bear trap' 
+                        and v.Name ~= 'Kanabo' and v.Name ~= 'Chainsaw' then
+                            
+                            if wA == false then break end
+                            
+                            v.Parent = plr.Character
+                            mouse1click()
+                            if not once then 
+                                wait()
+                            end
+                        end
+                    end
+                end
+            
+                if case <= 2 then    
+                    for i,v in pairs(plr.Backpack:GetChildren()) do
+                        if v.Name == weaponType then 
+                            if wA == false then break end
+                            if case == 1 then 
+                                if amount >= limit then break end end 
+                                
+                            v.Parent = plr.Character
+                            mouse1click()
+                            wait()
+                            
+                            amount = amount + 1
+                        end
+                    end
+                end
+            end
+                if wA == true then
+                        wA = false end
+                once = false
+                amount = 0
+                wait(.5)
+                if dequip then 
+                    plr.Character.Humanoid:UnequipTools()
+                end
+            end
+end
+end)
